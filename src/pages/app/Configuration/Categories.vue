@@ -59,18 +59,16 @@
     <br>
     <br>
     <b-table
-      Outlined
-      Fixed
+      striped
       responsive
-      selectable
-      head-variant
-      select-mode="single"
-      selectedVariant="success"
-      :field="fields"
+      show-empty
+      stacked="md"
       :items="categories"
-      @row-selected="rowSelected"
+      :fields="fields"
+      :fixed="true"
+      thead-class="myTable_thead"
     >
-      <template slot="Action" slot-scope>
+      <template slot="Action" slot-scope="data">
         <b-badge href="#" variant="primary">
           <i class="simple-icon-pencil"></i> Modifier
         </b-badge>
@@ -124,25 +122,20 @@ export default {
       selectMode: "single",
       selected: [],
       fields: {
-        select: {
-          label: "Select",
-          sortable: "false"
-        },
-        Id: {
+        id_categories: {
           label: "Id",
-          sortable: "true"
+          sortable: true
         },
-        Nom: {
+        nom: {
           label: "Nom",
-          sortable: "true"
+          sortable: true
         },
-        Icone: {
-          label: "Icone",
-          sortable: "false"
+        icon: {
+          label: "Icone"
         },
         Action: {
-          label: "action",
-          sortable: "false"
+          label: "Action",
+          sortable: false
         }
       },
       topLabelsOverLineForm: {
@@ -194,6 +187,7 @@ export default {
     },
     submit_creation(nom, icone) {
       this.createCategorie({ nom: nom, icone: icone });
+      this.$refs["modalright_create"].hide();
     }
   }
 };

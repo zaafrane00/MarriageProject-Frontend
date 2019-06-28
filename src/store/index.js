@@ -9,6 +9,7 @@ import todo from "./modules/todo";
 import survey from "./modules/survey";
 import getDataFromTable from "./getDataFromTable";
 import categoriesApi from "./modules/categoriesApi";
+import login from "./modules/login";
 Vue.use(Vuex);
 
 import { defaultLocale, localeOptions } from "constants/config";
@@ -33,6 +34,7 @@ export const store = new Vuex.Store({
     todo,
     survey,
     getDataFromTable,
-    categoriesApi
+    categoriesApi,
+    login
   }
 });

@@ -81,10 +81,10 @@ Vue.use(VCalendar, {
 import VueScrollTo from "vue-scrollto";
 Vue.use(VueScrollTo);
 
-import firebase from "firebase/app";
-import "firebase/auth";
-import { firebaseConfig } from "constants/config";
-firebase.initializeApp(firebaseConfig);
+// import firebase from "firebase/app";
+// import "firebase/auth";
+// import { firebaseConfig } from "constants/config";
+// firebase.initializeApp(firebaseConfig);
 
 export default new Vue({
   el: "#app",
