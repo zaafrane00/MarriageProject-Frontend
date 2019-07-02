@@ -10,15 +10,15 @@
           </div>
           <div class="form-side">
             <router-link tag="a" to="/"><span class="logo-single"/></router-link>
-            <h6 class="mb-4">{{ $t('user.login-title')}}</h6>
+            <h6 class="mb-4">Login</h6>
             <b-form @submit.prevent="formSubmit">
               <label class="form-group has-float-label mb-4">
                 <input type="email" class="form-control" v-model="email">
-                <span>{{ $t('user.email') }}</span>
+                <span>E-mail</span>
               </label>
               <label class="form-group has-float-label mb-4">
                 <input type="password" class="form-control" v-model="password">
-                <span>{{ $t('user.password') }}</span>
+                <span>Password</span>
               </label>
               <div class="d-flex justify-content-between align-items-center">
                   <router-link tag="a" to="/user/forgot-password">{{ $t('user.forgot-password-question')}}</router-link>
@@ -32,7 +32,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations,mapActions } from "vuex";
-
+import router from "../../router";
 export default {
   data(){
     return{
@@ -41,29 +41,25 @@ export default {
     }
   },
    computed: {
-    ...mapGetters(['currentUser','processing','loginError']),
+    ...mapGetters([]),
   },
    methods:{
-    ...mapActions(["login"]),
+    ...mapActions(["register",'go_acceuil']),
     formSubmit(){
-      this.email= "demo@gogo.com";
-      this.password ="gogo123";
-      this.login({email:this.email,password:this.password})
+        this.register({ email: this.email, password: this.password })
     }
   },
   watch:{
-    currentUser(val){
-      if(val&& val.uid && val.uid.length>0){
-        setTimeout(()=>{
-          this.$router.push('/')
-        },500)
-      }
+  
+  },
+ mounted(){
+       var tokenn =localStorage.getItem('token');
+     
+       if(tokenn){
+         alert(tokenn)
+         this.go_acceuil()
+       }
+      
     },
-    loginError(val){
-      if(val!=null){
-        this.$notify('error', 'Login Error', val, { duration: 3000, permanent: false });
-      }
-    }
-  }
 };
 </script>

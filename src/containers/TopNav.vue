@@ -176,9 +176,10 @@ export default {
       this.setLang(locale);
     },
     logout() {
-      this.signOut().then(() => {
+      
+        localStorage.removeItem('token');
         this.$router.push("/user/login");
-      });
+    
     },
 
     toggleFullScreen() {
