@@ -2,17 +2,24 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import VueAxios from "vue-axios";
-Vue.use(Vuex);
+import router from "../../router";
 
-var state = {
-  token: []
-};
-var getters = {
-  token: state => state.token
-};
-var mutations = {};
-var actions = {
-  getTokenn({ commit, state }, { email, password }) {
+Vue.use(Vuex);
+Vue.use(VueAxios, axios);
+
+const actions = {
+  go_acceuil() {
+    router.push("/");
+  },
+  go_login() {
+    router.push("/user/login");
+  },
+
+  /*get_admin({ commit, state }, { email, password }){
+    let url = "http://dev.marriage/api/get-token";
+   },*/
+
+  register({ commit, state }, { email, password }) {
     let url = "http://dev.marriage/api/get-token";
     var bodyFormData = new FormData();
     bodyFormData.set("user_name", email);
@@ -28,26 +35,33 @@ var actions = {
         }
       }
     })
-      .then(function(response) {
-        
+      .then(response => {
+        router.push("/");
         state.token = response.data;
+        localStorage.setItem("token", response.data.access_token);
+        console.log("retour ici=", response);
         console.log(state.token);
         Vue.$notify("success filled", "Succès", "Ajouté avec succés", {
           duration: 3000,
           permanent: false
         });
-        
       })
       .catch(e => {
-        Vue.$notify("error filled", "Erreur", "Cette assurance existe déja", {
+        Vue.$notify("error filled", e, e, {
           duration: 3000,
           permanent: false
         });
       });
   }
-
-  //setToken({ state, mutations }, { token }) {}
 };
+const state = {
+  token: [],
+  admin_name: ""
+};
+const getters = {
+  token: state => state.token
+};
+const mutations = {};
 
 export default {
   state,

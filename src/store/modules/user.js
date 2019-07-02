@@ -1,23 +1,20 @@
 import firebase from "firebase/app";
-  
+import "firebase/auth";
 import { currentUser } from "constants/config";
 
 export default {
   state: {
-    /*currentUser:
-      localStorage.getItem("user") != null
-        ? JSON.parse(localStorage.getItem("user"))
-        : null,
+    currentUser: localStorage.getItem("user")!=null ?JSON.parse(localStorage.getItem("user")):null,
     loginError: null,
-    processing: false*/
+    processing: false
   },
   getters: {
-    /*currentUser: state => state.currentUser,
+    currentUser: state => state.currentUser,
     processing: state => state.processing,
-    loginError: state => state.loginError*/
+    loginError: state => state.loginError,
   },
   mutations: {
-    /*setUser(state, payload) {
+    setUser(state, payload) {
       state.currentUser = payload;
       state.processing = false;
       state.loginError = null;
@@ -26,6 +23,7 @@ export default {
       state.currentUser = null;
       state.processing = false;
       state.loginError = null;
+      
     },
     setProcessing(state, payload) {
       state.processing = payload;
@@ -38,10 +36,11 @@ export default {
     },
     clearError(state) {
       state.loginError = null;
-    }*/
+    }
   },
   actions: {
-    /* login({ commit }, payload) {
+    
+    login({ commit }, payload) {
       commit("clearError");
       commit("setProcessing", true);
       firebase
@@ -67,6 +66,6 @@ export default {
           localStorage.removeItem("user")
           commit("setLogout")
         }, error => {});
-    }*/
+    }
   }
 };
