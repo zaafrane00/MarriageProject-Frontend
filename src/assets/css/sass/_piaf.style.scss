@@ -147,6 +147,10 @@ body {
   }
 }
 
+thead{
+background-color: red;
+    color: white; 
+}
 .fixed-background {
   background: url("/assets/img/balloon.jpg") no-repeat center center fixed;
   background-size: cover;
@@ -1704,7 +1708,7 @@ button {
     text-align: center;
 
     svg {
-      height: 12px;
+      height: 18px;
     }
 
     .main {

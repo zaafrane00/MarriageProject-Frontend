@@ -55,6 +55,7 @@ import ConfigurationCategories from "pages/app/Configuration/Categories";
 import ConfigurationPays from "pages/app/Configuration/Pays";
 import Configurationtest from "pages/app/Configuration/test";
 import Configurationtest2 from "pages/app/Configuration/test2";
+import ConfigurationSousCategories from "pages/app/Configuration/SousCategories";
 
 const routes = [
   {
@@ -109,7 +110,8 @@ const routes = [
           { path: "Pays", component: ConfigurationPays },
           { path: "Categories", component: ConfigurationCategories },
           { path: "test", component: Configurationtest },
-          { path: "test2", component: Configurationtest2 }
+          { path: "test2", component: Configurationtest2 },
+          { path: "SousCategories", component: ConfigurationSousCategories }
         ]
       },
 
