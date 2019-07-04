@@ -2,7 +2,7 @@
     <span>
       <h1 v-if="heading && heading.length>0">{{ heading }}</h1>
       <b-nav class="pt-0 breadcrumb-container d-none d-sm-block d-lg-inline-block">
-          <b-breadcrumb :items="items"/>
+        <h3>  <b-breadcrumb :items="items"/></h3>
       </b-nav>
     </span>
 </template>
@@ -32,7 +32,7 @@ export default {
   }
   rawPaths.map((sub, index) => {
       this.items.push({
-        text: this.$t("menu." + sub),
+        text: this.$t( sub),
         to: this.getUrl(path, sub, index)
       });
     });

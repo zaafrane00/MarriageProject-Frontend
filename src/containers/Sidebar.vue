@@ -37,6 +37,9 @@
               Menu Admin
             </a>
           </li>
+           <router-link :class="{ active : selectedParentMenu==='applications' }" @click.native="changeSelectedParentHasNoSubmenu('applications')" to="/app/applications/todo" tag="li">
+                      <a><i class="iconsmind-Digital-Drawing"></i>  {{ $t("menu.applications") }}</a>
+                    </router-link>
         </ul>
       </vue-perfect-scrollbar>
     </div>

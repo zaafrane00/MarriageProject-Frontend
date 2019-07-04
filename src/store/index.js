@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+
 import app from "../main";
 import menu from "./modules/menu";
 import user from "./modules/user";
@@ -10,6 +11,7 @@ import survey from "./modules/survey";
 import getDataFromTable from "./getDataFromTable";
 import categoriesApi from "./modules/categoriesApi";
 import LoginApi from "./modules/LoginApi";
+import souscategoriesApi from "./modules/souscategoriesApi";
 Vue.use(Vuex);
 
 import { defaultLocale, localeOptions } from "constants/config";
@@ -35,6 +37,7 @@ export const store = new Vuex.Store({
     survey,
     getDataFromTable,
     categoriesApi,
-    LoginApi
+    LoginApi,
+    souscategoriesApi
   }
 });
