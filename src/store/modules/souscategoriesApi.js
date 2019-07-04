@@ -36,11 +36,16 @@ const actions = {
       });
   },
 
-  createSousCategorie({ commit, state }, { nom, icon }) {
+  createSousCategorie({ commit, state }, { nom, idcategorie, icon }) {
+    console.log(nom)
+    console.log(idcategorie)
+    console.log(icon)
 
     var bodyFormData = new FormData();
     bodyFormData.set("nom", nom);
     bodyFormData.set("icon", icon);
+    bodyFormData.set("idcategorie", idcategorie);
+    console.log(bodyFormData)
     let url = "http://dev.marriage/api/sous_categorie ";
     axios({
       method: "post",
@@ -48,6 +53,7 @@ const actions = {
       data: bodyFormData,
       headers: {
         "X-Requested-With": "XMLHttpRequest",
+        'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: "Bearer " + localStorage.getItem('token')
       }
 

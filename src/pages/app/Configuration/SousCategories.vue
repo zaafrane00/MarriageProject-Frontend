@@ -20,15 +20,30 @@
       title="Creation Sous Categorie"
     >
       <b-card class="mb-4">
-        <b-form @submit.prevent="submit_creation(nomSousCategorie,iconSousCategorie)">
-          <label class="form-group has-float-label">
-            <b-form-input type="text" v-model="nomSousCategorie" />
-            <span>Nom Sous Categorie</span>
-          </label>
-          <label class="form-group has-float-label">
-            <b-form-input type="text" v-model="iconSousCategorie" />
-            <span>Icon Sous Categorie</span>
-          </label>
+        <b-form @submit.prevent="submit_creation(nomSousCategorie,idCategorie,iconSousCategorie)">
+          <b-container>
+            <label class="form-group has-float-label">
+              <b-form-input type="text" v-model="nomSousCategorie" />
+              <span>Nom Sous Categorie</span>
+            </label>
+            <label class="form-group has-float-label">
+              <b-form-input type="text" v-model="iconSousCategorie" />
+              <span>Icon Sous Categorie</span>
+            </label>
+            <label class="form-group has-float-label">
+              <span>Nom Sous Categorie</span>
+              <b-form-group>
+                <v-select
+                  single
+                  v-model="idCategorie"
+                  item-text="label"
+                  item-value="value"
+                  :options="selectData"
+                ></v-select>
+              </b-form-group>
+            </label>
+          </b-container>
+
           <!--<b-input-group>
             <b-form-file v-model="Categorie.Icon" placeholder="Choisir le Flag "></b-form-file>
           </b-input-group>-->
@@ -41,7 +56,7 @@
       </template>
     </b-modal>
     <!--------------------------------------------------------------------------->
-    <b-modal id="modalright" class="modal-right" ref="modalright" :title="title">
+    <b-modal id="modalright" class="modal-right" ref="modalright_modiff" :title="title">
       <b-form @submit.prevent="submit_Modification(updateCategorie)">
         <br />
         <label class="form-group has-float-label">
@@ -101,8 +116,10 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
+import vSelect from "vue-select";
 export default {
   name: "SousCategories",
+  components: { vSelect },
   data() {
     return {
       search: "",
@@ -123,16 +140,16 @@ export default {
           label: "#",
           sortable: true
         },
+        id_categorie: {
+          label: "ID Categorie",
+          sortable: true
+        },
         nom: {
           label: "Nom",
           sortable: true
         },
         icon: {
           label: "Icone"
-        },
-        id_categories: {
-          label: "ID Categories",
-          sortable: true
         },
         Action: {
           label: "Action",
@@ -141,48 +158,57 @@ export default {
       },
 
       nomSousCategorie: "",
-      iconSousCategorie: ""
+      iconSousCategorie: "",
+      idCategorie: "",
+      selectData: []
     };
   },
 
   created() {
     this.afficheSousCategories();
+    console.log(this.Souscategories);
+    this.afficheCategories().then(res => {
+      for (var i in this.categories) {
+        this.selectData.push({
+          value: this.categories[i].id_categories,
+          label: this.categories[i].nom
+        });
+      }
+      console.log("data", this.selectData);
+    });
   },
   computed: {
-    ...mapGetters(["Souscategories", "lenghtSCat"])
+    ...mapGetters(["Souscategories", "lenghtSCat", "categories"])
   },
   methods: {
-    ...mapActions(["afficheSousCategories", "createSousCategorie"]),
+    ...mapActions([
+      "afficheSousCategories",
+      "createSousCategorie",
+      "afficheCategories"
+    ]),
     rows() {
       return this.Souscategories.length;
-    },
-    hideModal(refname) {
-      this.$refs[refname].hide();
-      console.log("hide modal:: " + refname);
-
-      if (refname == "modalnestedinline") {
-        this.$refs["modalnested"].show();
-      }
-    },
-    somethingModal(refname) {
-      this.$refs[refname].hide();
-      console.log("something modal:: " + refname);
-
-      if (refname == "modalnestedinline") {
-        this.$refs["modalnested"].show();
-      }
     },
     rowSelected(items) {
       this.selected = items;
       this.title = "Modifier Category " + this.selected[0].nom;
-      //console.log(item[0].nom);
-      //his.$refs["modalright"].show();
     },
     onTopLabelsOverLineFormSubmit() {
       console.log(JSON.stringify(this.topLabelsOverLineForm));
     },
     showmodal1() {
       this.$refs["modalright_S_create"].show();
+    },
+    hidemodal1() {
+      this.$refs["modalright_S_create"].hide();
+    },
+    submit_creation(nom, id_categorie, icone) {
+      this.createSousCategorie({
+        nom: nom,
+        idcategorie: id_categorie.value,
+        icon: icone
+      });
+      this.$refs["modalright_S_create"].hide();
     }
   }
 };

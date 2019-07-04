@@ -3,7 +3,7 @@
     <link
       href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
       rel="stylesheet"
-    >
+    />
 
     <div
       :class="{'search':true, 'mobile-view':isMobileSearch} "
@@ -15,7 +15,7 @@
         <span class="icon search-icon" @click="searchClick">
           <i class="simple-icon-magnifier"></i>
         </span>
-        <input type="search" id="search" placeholder="  Rechercher">
+        <input type="search" id="search" placeholder="  Rechercher" />
       </div>
     </div>
   </div>

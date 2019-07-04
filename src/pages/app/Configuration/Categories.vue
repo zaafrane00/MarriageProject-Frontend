@@ -202,7 +202,6 @@ export default {
     hideModal(refname) {
       this.$refs[refname].hide();
       console.log("hide modal:: " + refname);
-
       if (refname == "modalnestedinline") {
         this.$refs["modalnested"].show();
       }
@@ -210,7 +209,6 @@ export default {
     somethingModal(refname) {
       this.$refs[refname].hide();
       console.log("something modal:: " + refname);
-
       if (refname == "modalnestedinline") {
         this.$refs["modalnested"].show();
       }
