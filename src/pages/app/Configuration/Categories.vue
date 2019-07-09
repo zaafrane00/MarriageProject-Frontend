@@ -35,12 +35,18 @@
                   <span>Nom Categorie</span>
                 </label>
                 <label class="form-group has-float-label">
-                  <b-form-input type="text" v-model="iconCategorie" />
-                  <span>icon Categorie</span>
+                  <!-- <b-form-input type="text" v-model="iconCategorie" />
+                  <span>icon Categorie</span>-->
                 </label>
-                <!--<b-input-group>
-            <b-form-file v-model="Categorie.Icon" placeholder="Choisir le Flag "></b-form-file>
-                </b-input-group>-->
+                <b-input-group>
+                  <b-form-file
+                    v-model="iconCategorie"
+                    placeholder="Choisir le Flag "
+                    @change="onupload"
+                    accept="image/*"
+                    enctype="multipart/form-data"
+                  ></b-form-file>
+                </b-input-group>
 
                 <b-button type="submit" variant="primary" class="mt-4">Confirmer1</b-button>
               </b-form>
@@ -202,7 +208,6 @@ export default {
     hideModal(refname) {
       this.$refs[refname].hide();
       console.log("hide modal:: " + refname);
-
       if (refname == "modalnestedinline") {
         this.$refs["modalnested"].show();
       }
@@ -210,7 +215,6 @@ export default {
     somethingModal(refname) {
       this.$refs[refname].hide();
       console.log("something modal:: " + refname);
-
       if (refname == "modalnestedinline") {
         this.$refs["modalnested"].show();
       }
@@ -231,7 +235,6 @@ export default {
     showmodal_modif(data) {
       this.updateCategorie = data;
       this.title = "Modifier Category " + this.updateCategorie.nom;
-
       this.$refs["modalright"].show();
     },
     hidemodal1() {
@@ -265,6 +268,10 @@ export default {
           });
         }
       });
+    },
+    onupload(event) {
+      this.iconCategorie = event.target.files[0];
+      console.log("ici icon categorie", this.iconCategorie);
     }
   }
 };

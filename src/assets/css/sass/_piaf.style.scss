@@ -77,7 +77,7 @@ $animation-time-short: 200ms;
 
 $border-radius: 0.1rem;
 
-$theme-color-purple: #922c88;
+$theme-color-purple: #263859;
 $theme-color-blue: #145388;
 $theme-color-green: #576a3d;
 $theme-color-orange: #e2863b;
@@ -148,7 +148,7 @@ body {
 }
 
 thead{
-background-color: red;
+background-color:#263859;
     color: white; 
 }
 .fixed-background {
@@ -445,7 +445,7 @@ p {
   }
 
   a.active i {
-    color: $theme-color-1;
+    color: #263859;
   }
 
   button {
@@ -453,7 +453,7 @@ p {
     color: $secondary-color;
 
     &:hover {
-      background-color: $theme-color-1;
+      background-color: #263859;
       border-color: $theme-color-1;
       color: $button-text-color;
     }
@@ -699,7 +699,7 @@ button {
 }
 
 .btn-primary {
-  background-color: $theme-color-1;
+  background-color: #263859;
   border-color: $theme-color-1;
   color: $button-text-color;
 
@@ -834,7 +834,7 @@ button {
 }
 
 .btn-warning {
-  background-color: $warning-color;
+  background-color: #b69329;
   border-color: $warning-color;
 }
 
