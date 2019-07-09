@@ -57,15 +57,27 @@
     </b-modal>
     <!--------------------------------------------------------------------------->
     <b-modal id="modalright" class="modal-right" ref="modalright_modiff" :title="title">
-      <b-form @submit.prevent="submit_Modification(updateCategorie)">
+      <b-form @submit.prevent="submit_Modification(updateSousCategorie)">
         <br />
         <label class="form-group has-float-label">
-          <b-form-input type="text" v-model="updateCategorie.nom" />
+          <b-form-input type="text" v-model="updateSousCategorie.nom" />
           <span>Nom Categorie</span>
         </label>
         <label class="form-group has-float-label">
-          <b-form-input type="text" v-model="updateCategorie.icon" />
+          <b-form-input type="text" v-model="updateSousCategorie.icon" />
           <span>Icon Categorie</span>
+        </label>
+        <label class="form-group has-float-label">
+          <span>Nom Sous Categorie</span>
+          <b-form-group>
+            <v-select
+              single
+              v-model="updateSousCategorie.idCategorie"
+              item-text="label"
+              item-value="value"
+              :options="selectData"
+            ></v-select>
+          </b-form-group>
         </label>
         <!-- <b-input-group>
           <b-form-file v-model="iconCategorie" placeholder="Choisir l'icon "></b-form-file>
@@ -100,7 +112,7 @@
           <i class="simple-icon-pencil"></i> Modifier
         </b-badge>
         <b-badge href="#" variant="success" @click="submit_delete(data.item,data.index)">
-          <i class="simple-icon-trash"></i> Delete
+          <i class="simple-icon-trash"></i> Supprimer
         </b-badge>
       </template>
     </b-table>
@@ -126,9 +138,10 @@ export default {
       lenghtrow: 0,
       perPage: 5,
       currentPage: 1,
-      updateCategorie: {
+      updateSousCategorie: {
         nom: "name",
-        icon: "icon"
+        icon: "icon",
+        idCategorie: ""
       },
       title: "Create Category",
       modes: ["multi", "single", "range"],
@@ -184,7 +197,9 @@ export default {
     ...mapActions([
       "afficheSousCategories",
       "createSousCategorie",
-      "afficheCategories"
+      "afficheCategories",
+      "modifierSousCategorie",
+      "deleteSousCategorie"
     ]),
     rows() {
       return this.Souscategories.length;
@@ -202,6 +217,11 @@ export default {
     hidemodal1() {
       this.$refs["modalright_S_create"].hide();
     },
+    showmodal_modif(data) {
+      this.updateSousCategorie = data;
+      this.title = "Modifier Category " + this.updateSousCategorie.nom;
+      this.$refs["modalright_modiff"].show();
+    },
     submit_creation(nom, id_categorie, icone) {
       this.createSousCategorie({
         nom: nom,
@@ -209,6 +229,30 @@ export default {
         icon: icone
       });
       this.$refs["modalright_S_create"].hide();
+    },
+    submit_Modification(objet) {
+      console.log("after ", objet);
+      console.log("id categorie ", objet.id_categorie);
+      console.log("id sus categorie ", objet.id_sous_categorie);
+      this.modifierSousCategorie({
+        nom: objet.nom,
+        icon: objet.icon,
+        id: objet.id_sous_categorie,
+        idcategorie: objet.id_categorie
+      });
+      this.$refs["modalright_modiff"].hide();
+    },
+    submit_delete(objet, index) {
+      this.Cofirmation = "";
+      this.$bvModal.msgBoxConfirm("Are you sure?").then(value => {
+        this.Cofirmation = value;
+        if (this.Cofirmation) {
+          this.deleteSousCategorie({
+            id: objet.id_sous_categorie,
+            index: index
+          });
+        }
+      });
     }
   }
 };

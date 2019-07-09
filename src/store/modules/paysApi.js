@@ -7,11 +7,20 @@ import { AlertPlugin } from "bootstrap-vue";
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 
+const state = {
+  pays: [],
+  lengthPays: 0,
+};
+const getters = {
+  pays: state => state.pays,
+  lengthPays: state => state.lengthPays
+};
+
 const actions = {
-  afficheCategories() {
-    //alert(localStorage.getItem("token"));
-    state.categories = [];
-    let url = "http://dev.marriage/api/categorie";
+  affichePays() {
+
+    state.pays = [];
+    let url = "http://dev.marriage/api/pays";
     return axios
       .get(url, {
         headers: {
@@ -21,21 +30,25 @@ const actions = {
         }
       })
       .then(response => {
-        state.categories = [];
+        state.pays = [];
         for (var item in response.data) {
-          state.categories.push(response.data[item]);
+          state.pays.push(response.data[item]);
         }
-        state.lenghtCat = Object.keys(response.data).length
+        state.lengthPays = Object.keys(response.data).length
       });
   },
 
-  createCategorie({ commit, state }, { nom, icon }) {
+  createPays({ commit, state }, { nom, icon, isactive }) {
 
     var bodyFormData = new FormData();
     bodyFormData.set("nom", nom);
-    bodyFormData.set("icon", icon.name);
+    console.log('nom22', nom);
+    bodyFormData.set("icone", icon.name);
     console.log('az', icon.name);
-    let url = "http://dev.marriage/api/categorie";
+    bodyFormData.set("isactive", isactive);
+    console.log('isactive 22', isactive);
+
+    let url = "http://dev.marriage/api/pays";
     axios({
       method: "post",
       url: url,
@@ -52,9 +65,9 @@ const actions = {
           permanent: false
         });
         console.log("hello", response);
-        state.categories.push(response.data)
-        state.lenghtCat = Object.keys(state.categories).length
-        console.log('heloeee', state.categories)
+        state.pays.push(response.data)
+        state.lengthPays = Object.keys(state.pays).length
+        console.log('heloeee', state.pays)
       })
       .catch(e => {
         Vue.$notify("error filled", e, e, {
@@ -64,35 +77,33 @@ const actions = {
       });
   },
 
-  modifierCategorie({ commit, state }, { nom, icon, id }) {
-    var bodyFormData = new FormData();
-    bodyFormData.set("id", id);
-    bodyFormData.set("nom", nom);
-    bodyFormData.set("icon", icon);
-    console.log(id)
-    let url = "http://dev.marriage/api/categorie/" + id;
-    axios.put(url, { nom: nom, icon: icon, id_categories: id }, {
+  modifierPays({ commit, state }, { nom, icon, isactive, id, index }) {
+
+
+    if (isactive == true)
+      isactive = 1
+    else
+      isactive = 0
+    let url = "http://dev.marriage/api/pays/" + id;
+    console.log('icond modif', icon)
+    axios.put(url, { nom: nom, icone: icon, id: id, isactive: isactive }, {
       headers: {
         "X-Requested-With": "XMLHttpRequest",
         Authorization: "Bearer " + localStorage.getItem('token')
       }
     }
-      // method: "put",
-      // url: url,
-      // data: { nom: 45, icon: 45, id_categories: 1 },
-
-      // headers: {
-      //   "Content-Type": "application/x-www-form-urlencoded",
-      //   "X-Requested-With": "XMLHttpRequest",
-      //   Authorization: "Bearer " + localStorage.getItem('token')
-      // }
     )
       .then(response => {
+        console.log('icondee modif222222', icon)
         Vue.$notify("success filled", response.data.nom, response.statusText, {
           duration: 3000,
           permanent: false
         });
         console.log("hello", response);
+
+        actions.affichePays()
+
+        console.log("hello index", state.pays[index]);
       })
       .catch(e => {
         Vue.$notify("error filled", e, e, {
@@ -102,17 +113,18 @@ const actions = {
       });
   },
 
-  deleteCategorie({ commit, state }, { id, index }) {
+  deletePays({ commit, state }, { id, index }) {
+
     const headers = {
       'Authorization': "Bearer " + localStorage.getItem('token'),
       'Content-Type': 'application/x-www-form-urlencoded',
       'X-Requested-With': 'XMLHttpRequest'
     }
     const data = {
-      id_categories: id
+      id: id
     }
 
-    let url = "http://dev.marriage/api/categorie/" + id;
+    let url = "http://dev.marriage/api/pays/" + id;
     axios.delete(url, { headers, data },
     ).then(response => {
 
@@ -120,34 +132,30 @@ const actions = {
         duration: 3000,
         permanent: false
       });
-      console.log("hello", response);
+      console.log("response", response);
       console.log('index=', index)
 
-      for (let i = 0; i < state.lenghtCat; i++) {
-        if (state.categories[i]['id_categories'] == id) {
-          state.categories.splice(i, 1);
+      for (let i = 0; i < state.lengthPays; i++) {
+        if (state.pays[i]['id'] == id) {
+          state.pays.splice(i, 1);
         }
       }
-      state.lenghtCat = Object.keys(state.categories).length
+      state.lengthPays = Object.keys(state.pays).length
 
     })
       .catch(e => {
         Vue.$notify("Error", e, e, {
           duration: 3000,
           permanent: false
+
         });
+
       });
   }
 
 };
-const state = {
-  categories: [],
-  lenghtCat: 0,
-};
-const getters = {
-  categories: state => state.categories,
-  lenghtCat: state => state.lenghtCat
-};
+
+
 const mutations = {};
 
 export default {

@@ -37,9 +37,6 @@ const actions = {
   },
 
   createSousCategorie({ commit, state }, { nom, idcategorie, icon }) {
-    console.log(nom)
-    console.log(idcategorie)
-    console.log(icon)
 
     var bodyFormData = new FormData();
     bodyFormData.set("nom", nom);
@@ -74,20 +71,15 @@ const actions = {
       });
   },
 
-  /*modifierSousCategorie({ commit, state }, { nom, icon, id }) {
-    var bodyFormData = new FormData();
-    bodyFormData.set("id", id);
-    bodyFormData.set("nom", nom);
-    bodyFormData.set("icon", icon);
-    console.log(id)
-    let url = "http://dev.marriage/api/sous_categorie /" + id;
-    axios.put(url, { nom: nom, icon: icon, id_sous_categorie: id }, {
+  modifierSousCategorie({ commit, state }, { nom, icon, id, idcategorie }) {
+
+    let url = "http://dev.marriage/api/sous_categorie/" + id;
+    axios.put(url, { nom: nom, icon: icon, id_sous_categorie: id, idcategorie: idcategorie }, {
       headers: {
         "X-Requested-With": "XMLHttpRequest",
         Authorization: "Bearer " + localStorage.getItem('token')
       }
     }
-
     )
       .then(response => {
         Vue.$notify("success filled", response.data.nom, response.statusText, {
@@ -124,7 +116,7 @@ const actions = {
       console.log("hello", response);
       console.log('index=', index)
       for (let i = 0; i < state.lenghtSCat; i++) {
-        if (state.Souscategories[i]['id_categories'] == id) {
+        if (state.Souscategories[i]['id_sous_categorie'] == id) {
           state.Souscategories.splice(i, 1);
         }
       }
@@ -136,7 +128,7 @@ const actions = {
           permanent: false
         });
       });
-  }*/
+  }
 
 };
 

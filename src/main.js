@@ -22,8 +22,8 @@ const messages = { en: en, es: es };
 import { defaultLocale, localeOptions } from "constants/config";
 const locale =
   localStorage.getItem("currentLanguage") &&
-  localeOptions.filter(x => x.id == localStorage.getItem("currentLanguage"))
-    .length > 0
+    localeOptions.filter(x => x.id == localStorage.getItem("currentLanguage"))
+      .length > 0
     ? localStorage.getItem("currentLanguage")
     : defaultLocale;
 const i18n = new VueI18n({

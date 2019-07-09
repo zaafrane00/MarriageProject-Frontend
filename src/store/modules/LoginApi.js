@@ -41,7 +41,7 @@ const actions = {
         localStorage.setItem("token", response.data.access_token);
         console.log("retour ici=", response);
         console.log(state.token);
-        Vue.$notify("success filled", "Succès", "Ajouté avec succés", {
+        Vue.$notify("success filled", response.data.nom, "Ajouté avec succés", {
           duration: 3000,
           permanent: false
         });

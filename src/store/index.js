@@ -12,6 +12,7 @@ import getDataFromTable from "./getDataFromTable";
 import categoriesApi from "./modules/categoriesApi";
 import LoginApi from "./modules/LoginApi";
 import souscategoriesApi from "./modules/souscategoriesApi";
+import paysApi from "./modules/paysApi";
 Vue.use(Vuex);
 
 import { defaultLocale, localeOptions } from "constants/config";
@@ -38,6 +39,7 @@ export const store = new Vuex.Store({
     getDataFromTable,
     categoriesApi,
     LoginApi,
-    souscategoriesApi
+    souscategoriesApi,
+    paysApi
   }
 });
