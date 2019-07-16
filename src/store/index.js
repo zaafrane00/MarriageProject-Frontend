@@ -8,11 +8,12 @@ import user from "./modules/user";
 import chat from "./modules/chat";
 import todo from "./modules/todo";
 import survey from "./modules/survey";
-import getDataFromTable from "./getDataFromTable";
 import categoriesApi from "./modules/categoriesApi";
 import LoginApi from "./modules/LoginApi";
 import souscategoriesApi from "./modules/souscategoriesApi";
 import paysApi from "./modules/paysApi";
+import GouvernoratApi from "./modules/GouvernoratApi";
+import VilleApi from "./modules/VilleApi";
 Vue.use(Vuex);
 
 import { defaultLocale, localeOptions } from "constants/config";
@@ -36,10 +37,11 @@ export const store = new Vuex.Store({
     chat,
     todo,
     survey,
-    getDataFromTable,
     categoriesApi,
     LoginApi,
     souscategoriesApi,
-    paysApi
+    paysApi,
+    GouvernoratApi,
+    VilleApi
   }
 });

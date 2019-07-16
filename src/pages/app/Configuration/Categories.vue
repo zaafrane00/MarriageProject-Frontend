@@ -1,6 +1,9 @@
 <template>
   <div>
-    <piaf-breadcrumb />
+    <b-colxx xxs="12">
+      <piaf-breadcrumb heading="Configration Categories" />
+      <div class="separator mb-5"></div>
+    </b-colxx>
     <b-card class="cardd">
       <b-tabs content-class="mt-3">
         <b-tab title="Categories" active>
@@ -139,6 +142,7 @@ export default {
   components: {
     InputTag,
     vSelect,
+
     SousCategories: SousCategories
   },
   mounted() {},

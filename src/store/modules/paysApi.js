@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import { AlertPlugin } from "bootstrap-vue";
+
 
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
@@ -17,6 +17,7 @@ const getters = {
 };
 
 const actions = {
+
   affichePays() {
 
     state.pays = [];
@@ -30,6 +31,7 @@ const actions = {
         }
       })
       .then(response => {
+
         state.pays = [];
         for (var item in response.data) {
           state.pays.push(response.data[item]);
@@ -42,12 +44,8 @@ const actions = {
 
     var bodyFormData = new FormData();
     bodyFormData.set("nom", nom);
-    console.log('nom22', nom);
     bodyFormData.set("icone", icon.name);
-    console.log('az', icon.name);
     bodyFormData.set("isactive", isactive);
-    console.log('isactive 22', isactive);
-
     let url = "http://dev.marriage/api/pays";
     axios({
       method: "post",
@@ -60,6 +58,8 @@ const actions = {
 
     })
       .then(response => {
+        console.log('ici reponse ville', response)
+        console.log('ici reponse photo ville', response.data.icone)
         Vue.$notify("success filled", response.data.nom, response.statusText, {
           duration: 3000,
           permanent: false
@@ -78,12 +78,7 @@ const actions = {
   },
 
   modifierPays({ commit, state }, { nom, icon, isactive, id, index }) {
-
-
-    if (isactive == true)
-      isactive = 1
-    else
-      isactive = 0
+    console.log('isactive api', isactive)
     let url = "http://dev.marriage/api/pays/" + id;
     console.log('icond modif', icon)
     axios.put(url, { nom: nom, icone: icon, id: id, isactive: isactive }, {

@@ -18,28 +18,65 @@
               {{ $t("menu.dashboards") }}
             </a>
           </li>
-          <li :class="{ active : selectedParentMenu==='layouts'}">
-            <a @click.prevent="openSubMenu($event,'layouts')" href="#layouts">
-              <i class="iconsmind-Digital-Drawing"></i>
-              {{ $t("menu.layouts") }}
-            </a>
-          </li>
+
           <li :class="{ active : selectedParentMenu==='Configuration'}">
             <a @click.prevent="openSubMenu($event,'Configuration')" href="#Configuration">
-              <i class="iconsmind-Wrench"></i>
+              <i class="iconsmind-Gear"></i>
               Configuration
             </a>
           </li>
 
-          <li :class="{ active : selectedParentMenu==='menu'}">
-            <a @click.prevent="openSubMenu($event,'menu')" href="#menu">
+          <router-link
+            :class="{ active : selectedParentMenu==='Utilisateurs' }"
+            @click.native="changeSelectedParentHasNoSubmenu('Utilisateurs')"
+            to="/app/Utilisateurs/Utilisateurs"
+            tag="li"
+          >
+            <a>
+              <i class="iconsmind-MaleFemale"></i>
+              Menu Uilisateur
+            </a>
+          </router-link>
+          <router-link
+            :class="{ active : selectedParentMenu==='Prestataires' }"
+            @click.native="changeSelectedParentHasNoSubmenu('Prestataires')"
+            to="/app/Prestataires/Prestataires"
+            tag="li"
+          >
+            <a>
+              <i class="iconsmind-Engineering"></i>
+              Menu Prestataire
+            </a>
+          </router-link>
+          <router-link
+            :class="{ active : selectedParentMenu==='Marriages' }"
+            @click.native="changeSelectedParentHasNoSubmenu('Marriages')"
+            to="/app/Marriages/Marriages"
+            tag="li"
+          >
+            <a>
+              <i class="simple-icon-event"></i>
+              Marriages
+            </a>
+          </router-link>
+
+          <li :class="{ active : selectedParentMenu==='Support'}">
+            <a @click.prevent="openSubMenu($event,'Support')" href="#Support">
+              <i class="iconsmind-Support"></i>
+              Support
+            </a>
+          </li>
+          <router-link
+            :class="{ active : selectedParentMenu==='Admin' }"
+            @click.native="changeSelectedParentHasNoSubmenu('Admin')"
+            to="/app/Admin/Admin"
+            tag="li"
+          >
+            <a>
               <i class="iconsmind-Administrator"></i>
               Menu Admin
             </a>
-          </li>
-           <router-link :class="{ active : selectedParentMenu==='applications' }" @click.native="changeSelectedParentHasNoSubmenu('applications')" to="/app/applications/todo" tag="li">
-                      <a><i class="iconsmind-Digital-Drawing"></i>  {{ $t("menu.applications") }}</a>
-                    </router-link>
+          </router-link>
         </ul>
       </vue-perfect-scrollbar>
     </div>
@@ -49,6 +86,19 @@
         class="scroll"
         :settings="{ suppressScrollX: true, wheelPropagation: false }"
       >
+        <!-- dashboards -->
+        <ul
+          class="list-unstyled"
+          data-link="dashboards"
+          :class="{'d-block':selectedParentMenu==='dashboards' }"
+        >
+          <router-link tag="li" to="/app/dashboards/Acceuil">
+            <a>
+              <i class="simple-icon-briefcase"></i>
+              Acceuil
+            </a>
+          </router-link>
+        </ul>
         <ul
           class="list-unstyled"
           data-link="dashboards"
@@ -57,27 +107,14 @@
           <router-link tag="li" to="/app/dashboards/default">
             <a>
               <i class="simple-icon-briefcase"></i>
-              {{ $t("menu.default") }}
+              default
             </a>
           </router-link>
         </ul>
-
+        <!-- Configuration -->
         <ul
           class="list-unstyled"
-          data-link="layouts"
-          :class="{'d-block':selectedParentMenu==='layouts' }"
-        >
-          <router-link tag="li" to="/app/layouts/data-list">
-            <a>
-              <i class="simple-icon-credit-card"></i>
-              {{ $t("menu.data-list") }}
-            </a>
-          </router-link>
-        </ul>
-
-        <ul
-          class="list-unstyled"
-          data-link="applications"
+          data-link="Configuration"
           :class="{'d-block':selectedParentMenu==='Configuration' }"
         >
           <router-link tag="li" to="/app/Configuration/Categories">
@@ -92,53 +129,23 @@
               Pays
             </a>
           </router-link>
-          <router-link tag="li" to="/app/Configuration/test">
-            <a>
-              <i class="simple-icon-map"></i>
-              Test
-            </a>
-          </router-link>
-          <router-link tag="li" to="/app/Configuration/test2">
-            <a>
-              <i class="simple-icon-map"></i>
-              Test2
-            </a>
-          </router-link>
         </ul>
-
+        <!-- Support -->
         <ul
           class="list-unstyled"
-          data-link="menu"
-          :class="{'d-block':selectedParentMenu==='menu' }"
+          data-link="Support"
+          :class="{'d-block':selectedParentMenu==='Support' }"
         >
-          <router-link
-            tag="li"
-            to="#/app/menu/default"
-            @click.native.prevent="changeDefaultMenuType('menu-default')"
-          >
+          <router-link tag="li" to="/app/Support/Rapport">
             <a>
-              <i class="simple-icon-people mi-subhidden"></i>
-              Afficher Admin
+              <i class="simple-icon-layers"></i>
+              Rapport
             </a>
           </router-link>
-          <router-link
-            tag="li"
-            to="#/app/menu/subhidden"
-            @click.native.prevent="changeDefaultMenuType('menu-sub-hidden')"
-          >
+          <router-link tag="li" to="/app/Support/Messages">
             <a>
-              <i class="simple-icon-user-follow mi-subhidden"></i>
-              Ajouter Admin
-            </a>
-          </router-link>
-          <router-link
-            tag="li"
-            to="#/app/menu/hidden"
-            @click.native.prevent="changeDefaultMenuType('menu-hidden')"
-          >
-            <a>
-              <i class="simple-icon-user-unfollow mi-hidden"></i>
-              Supprimer Admin
+              <i class="simple-icon-map"></i>
+              Chat
             </a>
           </router-link>
         </ul>

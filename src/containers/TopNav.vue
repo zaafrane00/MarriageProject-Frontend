@@ -5,14 +5,14 @@
       class="menu-button d-none d-md-block"
       @click.prevent="changeSideMenuStatus({step :menuClickCount+1,classNames:menuType})"
     >
-      <menu-icon/>
+      <menu-icon />
     </a>
     <a
       href="#"
       class="menu-button-mobile d-xs-block d-sm-block d-md-none"
       @click.prevent="changeSideMenuForMobile(menuType)"
     >
-      <mobile-menu-icon/>
+      <mobile-menu-icon />
     </a>
     <div
       :class="{'search ':true, 'mobile-view':isMobileSearch}"
@@ -31,8 +31,23 @@
       </span>
     </div>
     <div class="mr-auto">
-      <test></test>
+      <b-container class="bv-example-row">
+        <b-row>
+          <b-col>
+            <b-button variant="outline-primary" @click="showmodal1()">
+              Ajouter
+              <span>
+                <i class="simple-icon-plus"></i>
+              </span>
+            </b-button>
+          </b-col>
+          <b-col>
+            <searchComponent></searchComponent>
+          </b-col>
+        </b-row>
+      </b-container>
     </div>
+    
     <router-link class="navbar-logo ml-auto" tag="a" to="/app">
       <span class="logo d-none d-xs-block" id="marriagelogo"></span>
       <span class="logo-mobile d-block d-xs-none"></span>
@@ -50,7 +65,7 @@
             no-caret
           >
             <template slot="button-content">
-              <i class="simple-icon-bell"/>
+              <i class="simple-icon-bell" />
               <span class="count">3</span>
             </template>
             <vue-perfect-scrollbar :settings="{ suppressScrollX: true, wheelPropagation: false }">
@@ -64,7 +79,7 @@
                     :src="n.img"
                     :alt="n.title"
                     class="img-thumbnail list-thumbnail xsmall border-0 rounded-circle"
-                  >
+                  />
                 </router-link>
                 <div class="pl-3 pr-2">
                   <router-link tag="a" to="/app/layouts/details">
@@ -99,14 +114,11 @@
           <template slot="button-content">
             <span class="name mr-1">{{currentUser.title}}</span>
             <span>
-              <img :alt="currentUser.title" :src="currentUser.img">
+              <img :alt="currentUser.title" :src="currentUser.img" />
             </span>
           </template>
           <b-dropdown-item>Account</b-dropdown-item>
-          <b-dropdown-item>Features</b-dropdown-item>
-          <b-dropdown-item>History</b-dropdown-item>
-          <b-dropdown-item>Support</b-dropdown-item>
-          <b-dropdown-divider/>
+          <b-dropdown-divider />
           <b-dropdown-item @click="logout">Sign out</b-dropdown-item>
         </b-dropdown>
       </div>
@@ -116,7 +128,7 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import { MenuIcon, MobileMenuIcon } from "components/Svg";
-import test from "../pages/app/Configuration/test.vue";
+import searchComponent from "../pages/app/Configuration/searchComponent.vue";
 
 import notifications from "data/notifications";
 import {
@@ -129,7 +141,7 @@ import {
 export default {
   name: "TopNav",
   components: {
-    test: test,
+    searchComponent: searchComponent,
     MenuIcon,
     MobileMenuIcon
   },
@@ -176,10 +188,8 @@ export default {
       this.setLang(locale);
     },
     logout() {
-      
-        localStorage.removeItem('token');
-        this.$router.push("/user/login");
-    
+      localStorage.removeItem("token");
+      this.$router.push("/user/login");
     },
 
     toggleFullScreen() {

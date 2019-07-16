@@ -164,7 +164,7 @@ background-color:#263859;
 }
 
 h1 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   padding-bottom: 10px;
   display: inline-block;
 
@@ -1468,6 +1468,7 @@ button {
   .breadcrumb {
     @include respond-below(md) {
       padding: 0;
+      font-size: 14.4px;
     }
   }
 }
@@ -1475,10 +1476,12 @@ button {
 .breadcrumb {
   background-color: transparent;
   margin-bottom: 0.5rem;
+  font-size: 14.4px;
 }
 
 .breadcrumb-item+.breadcrumb-item::before {
   content: "|";
+  font-size: 14.4px;
 }
 
 /* 07.Tabs */

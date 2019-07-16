@@ -1,6 +1,9 @@
 <template>
   <div>
-    <piaf-breadcrumb />
+    <b-colxx xxs="12">
+      <piaf-breadcrumb heading="Configuration Pays" />
+      <div class="separator mb-5"></div>
+    </b-colxx>
     <b-card class="cardd">
       <b-tabs content-class="mt-3">
         <b-tab title="Pays" active>
@@ -31,7 +34,7 @@
             <b-card class="mb-4">
               <b-form @submit.prevent="submit_creation(nomPays,iconPays,isactive)">
                 <label class="form-group has-float-label">
-                  <b-form-input type="text" v-model="nomPays" />
+                  <b-form-input type="text" v-model="nomPays" required />
                   <span>Nom Pays</span>
                 </label>
                 <label class="form-group has-float-label">
@@ -41,9 +44,10 @@
                   <b-form-file
                     v-model="iconPays"
                     placeholder="Choisir le Flag "
-                    @change="onupload"
+                    @change="onfileselected"
                     accept="image/*"
                     enctype="multipart/form-data"
+                    required
                   ></b-form-file>
                 </b-input-group>
                 <b-form-checkbox v-model="checked" name="check-button" @change="hello()" switch>
@@ -72,19 +76,18 @@
               <b-input-group>
                 <b-form-file
                   v-model="updatePays.icon"
-                  @change="onupload"
                   accept="image/*"
                   enctype="multipart/form-data"
                 ></b-form-file>
               </b-input-group>
+              <br />
               <b-form-checkbox
-                v-model="updatePays.isactive"
+                v-model="falsetrue"
                 name="check-button"
-                @change="hello()"
+                @change="hello(falsetrue)"
                 switch
               >
-                Active
-                <b>({{ checked }})</b>
+                <h4>: Choisissez où vous activez ou désactivez</h4>
               </b-form-checkbox>
 
               <b-button type="submit" variant="primary" class="mt-4">Confirmer2</b-button>
@@ -99,10 +102,9 @@
 
           <b-table
             id="my-table"
-            selectable
+            hover="hover"
             bordered="bordered"
             :per-page="perPage"
-            hover="hover"
             :current-page="currentPage"
             show-empty
             :items="pays"
@@ -122,12 +124,11 @@
               </b-badge>
             </template>
             <template slot="Status" slot-scope="data">
-              <b-badge href="#" variant="success" v-if="data.item.isactive==1">
-                <i class="simple-icon-pencil"></i> Activé
-              </b-badge>
-              <b-badge href="#" variant="warning" v-else>
-                <i class="simple-icon-trash"></i> Non Activé
-              </b-badge>
+              <b-badge href="#" variant="success" v-if="data.item.isactive==1">Activé</b-badge>
+              <b-badge href="#" variant="warning" v-else>Non Activé</b-badge>
+            </template>
+            <template slot="icone" slot-scope="data">
+              <b-img src="../../../assets/img/Flags/ad.svg" rounded="circle" style="height : 20%"></b-img>
             </template>
           </b-table>
           <b-pagination
@@ -139,27 +140,36 @@
           ></b-pagination>
           <!--------------------------------------------------------------------------->
         </b-tab>
-        <b-tab title="Governorat"></b-tab>
-        <b-tab title="Ville"></b-tab>
+        <b-tab title="Gouvernorat">
+          <Gouvernorat></Gouvernorat>
+        </b-tab>
+        <b-tab title="Ville">
+          <Ville></Ville>
+        </b-tab>
       </b-tabs>
     </b-card>
   </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions, Store } from "vuex";
 import InputTag from "components/Form/InputTag";
 import vSelect from "vue-select";
 import Switches from "vue-switches";
+import Gouvernorat from "../Configuration/Gouvernorat.vue";
+import Ville from "../Configuration/Ville.vue";
 
 export default {
   name: "Pays",
   components: {
     InputTag,
     vSelect,
-    Switches
+    Switches,
+    Gouvernorat,
+    Ville
   },
   data() {
     return {
+      falsetrue: false,
       rowSelected: "",
       isBusy: false,
       checked: false,
@@ -170,7 +180,7 @@ export default {
       updatePays: {
         nom: "",
         icon: "icon",
-        isactive: "isactive"
+        isactive: 0
       },
       title: "Create Pays",
 
@@ -208,7 +218,7 @@ export default {
         checked: false
       },
       nomPays: "",
-      iconPays: "",
+      iconPays: null,
       isactive: "",
       index: false,
       Cofirmation: "",
@@ -218,17 +228,25 @@ export default {
         primaryInverse: false,
         secondaryInverse: true
       },
-      filter: null
+      filter: null,
+      countries: [],
+      info: false
     };
   },
   created() {
     this.affichePays();
+    this.isactive = 0;
   },
   computed: {
     ...mapGetters(["pays", "lengthPays"])
   },
   mounted() {},
   methods: {
+    onUpload() {},
+    returnFalse(x) {
+      if (x == 0) this.falsetrue = false;
+      else this.falsetrue = true;
+    },
     ...mapActions(["affichePays", "createPays", "modifierPays", "deletePays"]),
     rowClass(item, type) {
       if (!this.pays) return;
@@ -248,17 +266,19 @@ export default {
       this.$refs["modalright_create"].hide();
     },
 
-    onupload(event) {
+    onfileselected(event) {
       this.iconPays = event.target.files[0];
-      console.log("ici iconPays", this.iconPays);
+      console.log("on file selected image", this.iconPays);
     },
-    hello() {
-      if (this.checked == !true) {
-        this.isactive = 1;
-        console.log(" this.isactive", this.isactive);
-      } else {
+    hello(x) {
+      if (x == true) {
         this.isactive = 0;
-        console.log(" this.isactive", this.isactive);
+        this.updatePays.isactive = 0;
+        console.log(" this.isactive", this.updatePays.isactive);
+      } else {
+        this.isactive = 1;
+        this.updatePays.isactive = 1;
+        console.log(" this.isactive", this.updatePays.isactive);
       }
     },
     showmodal_modif(data, index) {
@@ -267,6 +287,8 @@ export default {
       const returnedTarget = Object.assign(target, data);
       returnedTarget["index"] = index;
       this.updatePays = returnedTarget;
+      console.log("up", this.updatePays);
+      this.returnFalse(this.updatePays.isactive);
       this.title = "Modifier Category " + this.updatePays.nom;
       this.index = index;
       console.log("obbbbbbb", this.updatePays.isactive);
@@ -278,8 +300,8 @@ export default {
       this.$refs["modalright"].hide();
     },
     submit_Modification(objet) {
-      console.log("after ", objet);
-      console.log("icon name", objet.icon.name);
+      console.log("objet modification submit ", objet);
+      console.log("icon name on modification", objet.icon.name);
       this.modifierPays({
         nom: objet.nom,
         icon: objet.icon.name,

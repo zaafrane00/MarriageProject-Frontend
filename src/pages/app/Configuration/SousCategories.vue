@@ -187,7 +187,7 @@ export default {
           label: this.categories[i].nom
         });
       }
-      console.log("data", this.selectData);
+      console.log("datass", this.selectData);
     });
   },
   computed: {
