@@ -2,7 +2,7 @@
 
 This project is meant to be the frontend to a platforme for organizing events like marriages from start to finish using VueJs,
 
-It's back end is called SWConsulting-Project
+It's back end is a github repo called SWConsulting-Project
 
 ## Development server
 
